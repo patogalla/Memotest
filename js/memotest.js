@@ -5,7 +5,7 @@ let dosCartas = []; //guarda las cartas clickeadas de a pares en el array, cada 
 const jugador = []; //guardo los jugadores en este array para poder guardarlos luego en el localStorage
 const jugadorInfo = { //objeto con la información de cada persona que juega
     nombre: '',
-    nivel: '',
+    nivel: 'FACIL',
     intentos: 0
 }
 
@@ -21,18 +21,58 @@ const niveles = { //objeto con la información de cada nivel
   }
 }
 const imagenes = [ //array de las imágenes que se mostrarán en el tablero
-  {id: '1', src: 'img/alce.jpg'},
-  {id: '2', src: 'img/epelante.jpg'},
-  {id: '3', src: 'img/nena.jpg'},
-  {id: '4', src: 'img/peces.jpg'},
-  {id: '5', src: 'img/unichancho.jpg'},
-  {id: '6', src: 'img/zapas.jpg'},
-  {id: '7', src: 'img/alce.jpg'},
-  {id: '8', src: 'img/epelante.jpg'},
-  {id: '9', src: 'img/nena.jpg'},
-  {id: '10', src: 'img/peces.jpg'},
-  {id: '11', src: 'img/unichancho.jpg'},
-  {id: '12', src: 'img/zapas.jpg'},
+  {id: '1', src: 'img/1.jpg'},
+  {id: '2', src: 'img/2.jpg'},
+  {id: '3', src: 'img/3.jpg'},
+  {id: '4', src: 'img/4.jpg'},
+  {id: '5', src: 'img/5.jpg'},
+  {id: '6', src: 'img/6.jpg'},
+  {id: '7', src: 'img/7.jpg'},
+  {id: '8', src: 'img/8.jpg'},
+  {id: '9', src: 'img/1.jpg'},
+  {id: '10', src: 'img/2.jpg'},
+  {id: '11', src: 'img/3.jpg'},
+  {id: '12', src: 'img/4.jpg'},
+  {id: '13', src: 'img/5.jpg'},
+  {id: '14', src: 'img/6.jpg'},
+  {id: '15', src: 'img/7.jpg'},
+  {id: '16', src: 'img/8.jpg'},
+]
+const imagenes1 = [ //array de las imágenes que se mostrarán en el tablero
+  {id: '1', src: 'img/1/1.jpg'},
+  {id: '2', src: 'img/1/2.jpg'},
+  {id: '3', src: 'img/1/3.jpg'},
+  {id: '4', src: 'img/1/4.jpg'},
+  {id: '5', src: 'img/1/5.jpg'},
+  {id: '6', src: 'img/1/6.jpg'},
+  {id: '7', src: 'img/1/7.jpg'},
+  {id: '8', src: 'img/1/8.jpg'},
+  {id: '9', src: 'img/1/1.jpg'},
+  {id: '10', src: 'img/1/2.jpg'},
+  {id: '11', src: 'img/1/3.jpg'},
+  {id: '12', src: 'img/1/4.jpg'},
+  {id: '13', src: 'img/1/5.jpg'},
+  {id: '14', src: 'img/1/6.jpg'},
+  {id: '15', src: 'img/1/7.jpg'},
+  {id: '16', src: 'img/1/8.jpg'},
+]
+const imagenes2 = [ //array de las imágenes que se mostrarán en el tablero
+  {id: '1', src: 'img/2/1.jpg'},
+  {id: '2', src: 'img/2/2.jpg'},
+  {id: '3', src: 'img/2/3.jpg'},
+  {id: '4', src: 'img/2/4.jpg'},
+  {id: '5', src: 'img/2/5.jpg'},
+  {id: '6', src: 'img/2/6.jpg'},
+  {id: '7', src: 'img/2/7.jpg'},
+  {id: '8', src: 'img/2/8.jpg'},
+  {id: '9', src: 'img/2/1.jpg'},
+  {id: '10', src: 'img/2/2.jpg'},
+  {id: '11', src: 'img/2/3.jpg'},
+  {id: '12', src: 'img/2/4.jpg'},
+  {id: '13', src: 'img/2/5.jpg'},
+  {id: '14', src: 'img/2/6.jpg'},
+  {id: '15', src: 'img/2/7.jpg'},
+  {id: '16', src: 'img/2/8.jpg'},
 ]
 
 const tapadaImg = { //objeto con la información de la imagen que se muestra para ocultar las otras imágenes del tablero
@@ -41,10 +81,15 @@ const tapadaImg = { //objeto con la información de la imagen que se muestra par
 };
 
 function comienzo(){
-  $('.inicio').show();
+  $('.inicio').hide();
   $('.error').hide();
-  $('.main-container').hide();
+  $('.main-container').show();
   $('.images').removeClass('gris');
+  $('.inicio').hide();
+  $('.main-container').show();
+  $('.saludo').prepend('<p class="saludos">¡Hola ' + jugadorInfo.nombre +'!</p>')
+  $('.nivel').prepend('<p class="niveles"> FACIL </p>')
+  $('.num-intentos').text('18');
 }
 
 //de acuerdo al botón de la dificultad que clickee el jugador, se guardarán el nivel elegido y su nombre,
@@ -104,15 +149,18 @@ function shuffle(imagenes) {
 }
 
 //creo los divs que contendrán a las imágenes tapadas y destapadas (que son las que están dentro del array imagenes)
-function crearTablero(){
+function crearTablero(imagenes){
   for (let i = 0; i < imagenes.length; i++){
     let carta = $('<div class="card"></div>');
+    let identificador = $('<span class="identificador"></span>');
     let cartaTapadaDiv = $('<div class="cartaTapada"></div>');
     let cartaDestapadaDiv = $('<div class="cartaDestapada"></div>');
     let cartaTapadaImg = $('<img class="imgTapada" src="'+ tapadaImg.src + '">');
     let cartaDestapadaImg = $('<img class="imgDestapada" src="' + imagenes[i].src +'">');
     carta.append(cartaTapadaDiv);
     carta.append(cartaDestapadaDiv);
+    carta.append(identificador);
+    identificador.append(String.fromCharCode(97 + (i / 4)).toUpperCase() + ' ' + ((i % 4) + 1) );
     cartaTapadaDiv.append(cartaTapadaImg);
     cartaDestapadaDiv.append(cartaDestapadaImg);
     $('.tablero').append(carta); //una vez creados todos los divs con sus imágenes los meto dentro del div tablero
@@ -217,7 +265,11 @@ function jugarDeNuevo(){ //reinicia el juego
 comienzo();
 loginJugador();
 shuffle(imagenes);
-crearTablero();
+crearTablero(imagenes);
+shuffle(imagenes1);
+//crearTablero(imagenes1);
+shuffle(imagenes2);
+//crearTablero(imagenes2);
 jugar();
 armarTabla();
 jugarDeNuevo();
