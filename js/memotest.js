@@ -200,7 +200,7 @@ function jugar(){
 };
 
 function ganaPierde(){ //muestra el mensaje ganador o perdedor
-  if (aciertos === 6) { //gana (tuvo 6 aciertos)
+  if (aciertos === 8) { //gana (tuvo 6 aciertos)
     $('#modal').removeClass('oculto');
     $('#gana').removeClass('oculto');
     $('.intentos-span').text(jugadorInfo.intentos).css('color', 'black');
